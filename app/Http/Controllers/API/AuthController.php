@@ -19,21 +19,21 @@ class AuthController extends Controller
         $validateDAta['password'] = bcrypt($request->password);
         $user = User::create($validateDAta);
         $accessToken = $user->createToken('authToken')->accessToken;
-        return response(['user'=>$user, 'access_token'=>$accessToken]);
+        return response(['user'=>$user, 'access_token'=>$accessToken,'message' => 'Registro Exitoso'], 200);
     }
 
     public function login(Request $request)
     {
-        $loginData = $rerquest->validate([
+        $loginData = $request->validate([
             'email' => 'email|required',
             'password' => 'required'
         ]);
 
-        if (!auth()->attemp($loginData)) {
+        if (!auth()->attempt($loginData)) {
             return response(['message'=>'Credenciales incorrectas']);
         }
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
-        return response(['user'=>auth()->user(), 'access_token'=>$accessToken]);
+        return response(['user'=>auth()->user(), 'access_token'=>$accessToken, 'message' => 'Login Exitoso'], 200);
     }
 }
