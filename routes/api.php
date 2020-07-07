@@ -18,7 +18,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/verified-only',function(Request $request){
+    dd('Usuario Verificado',$request->user()->name);
+})->middleware('auth:api','verified');
+
 Route::post('/register', 'API\AuthController@register');
 Route::post('/login', 'API\AuthController@login');
 Route::post('/password/email','API\ForgotPasswordController@sendResetLinkEmail');
 Route::post('/password/reset','API\ResetPasswordController@reset');
+Route::get('/email/resend','API\VerificationController@resend')->name('verification.resend');
+Route::get('/email/verify/{id}/{hash}','API\VerificationController@verify')->name('verification.verify');
+Route::post('/user/ticket','TicketController@store');
+Route::post('/admin/ticket','API\TicketController@store');
+Route::post('/admin/ticket/{id}','API\TicketController@update');
+Route::get('/user/ticket/{id}','TicketController@show');
