@@ -5,19 +5,21 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreUserRequest;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(Request $request,StoreUserRequest $User_request)
     {
         $validateDAta = $request->validate([
             'name'=>'required|max:55',
             'email'=>'email|required|unique:users',
-            'password'=>'required|confirmed'
+            'password'=>'required|confirmed',
         ]);
 
         $validateDAta['password'] = bcrypt($request->password);
         $user = User::create($validateDAta);
+        $user->roles()->sync($User_request->input('roles', []));
         $accessToken = $user->createToken('authToken')->accessToken;
         return response(['user'=>$user, 'access_token'=>$accessToken,'message' => 'Registro Exitoso'], 200);
     }
