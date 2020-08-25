@@ -27,12 +27,12 @@ class RolesController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function edit(Role $role)
-    {
-        $permissions = Permission::all()->pluck('title','id');
-        $role->load('permissions');
-        return $role.$permissions;
-    }
+    // public function edit(Role $role)
+    // {
+    //     $permissions = Permission::all()->pluck('title','id');
+    //     $role->load('permissions');
+    //     return $role.$permissions;
+    // }
 
     public function update(UpdateRoleRequest $request, Role $role)
     {
