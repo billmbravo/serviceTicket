@@ -10,18 +10,18 @@ use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Resources\RoleResource;
 use Symfony\Component\HttpFoundation\Response;
+
 class RolesController extends Controller
 {
     public function index()
     {
-        $roles = Role::all();
-        return $roles;
+        return Role::all();
     }
 
     public function store(StoreRoleRequest $request)
     {
         $role = Role::create($request->all());
-        $role->permissions()->sync($request->input('permissions',[]));
+        $role->permissions()->sync($request->input('permissions', []));
         return (new RoleResource($role))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
@@ -37,7 +37,7 @@ class RolesController extends Controller
     public function update(UpdateRoleRequest $request, Role $role)
     {
         $role->update($request->all());
-        $role->permissions()->sync($request->input('permissions',[]));
+        $role->permissions()->sync($request->input('permissions', []));
         return (new RoleResource($role))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
