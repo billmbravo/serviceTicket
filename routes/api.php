@@ -33,3 +33,5 @@ Route::post('/admin/ticket', 'API\TicketController@store');
 Route::post('/admin/ticket/{id}', 'API\TicketController@update');
 Route::get('/user/ticket/{id}', 'TicketController@show');
 Route::get('/priorities', 'API\PrioritiesController@index');
+Route::get('/roles', 'API\RolesController@index');
+Route::get('/agents', 'API\UsersController@index');
