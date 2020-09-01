@@ -22,14 +22,14 @@ class TicketController extends Controller
         $ticket = Ticket::create($request->all());
         return response(['ticket' => $ticket, 'message' => 'Ticket creado con exito'], 200);
     }
-    public function show(Ticket $ticket)
+    public function show(Ticket $id)
     {
-        return new TicketResource($ticket->load(['status', 'priority', 'assigned_to_user'])->get());
+        return new TicketResource($id->load(['status', 'priority', 'assigned_to_user']));
     }
     public function update(UpdateTicketRequest $request, Ticket $id)
     {
         $id->update($request->all());
-        return response(['ticket'=> $id, 'message' => 'Ticket modificado con exito'], 200);;
+        return response(['ticket' => $id, 'message' => 'Ticket modificado con exito'], 200);;
     }
     public function destroy(Ticket $ticket)
     {
